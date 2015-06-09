@@ -1,0 +1,1725 @@
+<channel>
+  <id>e72b2e33-060a-4e78-9849-ecc0d61bc096</id>
+  <name>MCBIOS_PSC Lab Results -  Beaker</name>
+  <description>This is an inbound interface. It listens on server:6661. &#xd;
+It listens for lab results HL7 (ORM^001) messages coming from SoftLAB. &#xd;
+It only collects the lab results relates with subjects in PSC and filters the others.</description>
+  <enabled>false</enabled>
+  <version>2.1.1.5490</version>
+  <lastModified>
+    <time>1433860062699</time>
+    <timezone>America/Chicago</timezone>
+  </lastModified>
+  <revision>6</revision>
+  <sourceConnector>
+    <name>sourceConnector</name>
+    <properties>
+      <property name="DataType">LLP Listener</property>
+      <property name="ackCodeError">AE</property>
+      <property name="ackCodeRejected">AR</property>
+      <property name="ackCodeSuccessful">AA</property>
+      <property name="ackIP"></property>
+      <property name="ackMsgError">An Error Occured Processing Message.</property>
+      <property name="ackMsgRejected">Message Rejected.</property>
+      <property name="ackMsgSuccessful">Message Received.</property>
+      <property name="ackOnNewConnection">0</property>
+      <property name="ackPort"></property>
+      <property name="bufferSize">65536</property>
+      <property name="charEncoding">hex</property>
+      <property name="charsetEncoding">DEFAULT_ENCODING</property>
+      <property name="checkMSH15">0</property>
+      <property name="host">127.0.0.1</property>
+      <property name="messageEnd">0x1C</property>
+      <property name="messageStart">0x0B</property>
+      <property name="port">6661</property>
+      <property name="processBatchFiles">0</property>
+      <property name="receiveTimeout">0</property>
+      <property name="reconnectInterval">5000</property>
+      <property name="recordSeparator">0x0D</property>
+      <property name="responseFromTransformer">0</property>
+      <property name="responseValue">None</property>
+      <property name="segmentEnd">0x0D</property>
+      <property name="sendACK">1</property>
+      <property name="serverMode">1</property>
+      <property name="tcpProtocolClassName">org.mule.providers.tcp.protocols.TcpProtocol</property>
+      <property name="useStrictLLP">1</property>
+      <property name="waitForEndOfMessageCharacter">0</property>
+    </properties>
+    <transformer>
+      <steps>
+        <step>
+          <sequenceNumber>0</sequenceNumber>
+          <name>mrn</name>
+          <script>var mapping;try { mapping = msg[&apos;PID&apos;][&apos;PID.3&apos;][&apos;PID.3.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;mrn&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>mrn</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;PID&apos;][&apos;PID.3&apos;][&apos;PID.3.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>1</sequenceNumber>
+          <name>Source</name>
+          <script>var mapping;try { mapping = msg[&apos;MSH&apos;][&apos;MSH.4&apos;][&apos;MSH.4.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;Source&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>Source</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;MSH&apos;][&apos;MSH.4&apos;][&apos;MSH.4.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>2</sequenceNumber>
+          <name>source_application</name>
+          <script>var mapping;try { mapping = msg[&apos;MSH&apos;][&apos;MSH.3&apos;][&apos;MSH.3.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;source_application&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>source_application</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;MSH&apos;][&apos;MSH.3&apos;][&apos;MSH.3.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>3</sequenceNumber>
+          <name>order_id_forPSC</name>
+          <script>var mapping;try { mapping = msg[&apos;OBR&apos;][&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;order_id_forPSC&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>order_id_forPSC</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;OBR&apos;][&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>4</sequenceNumber>
+          <name>system_type</name>
+          <script>var mapping;try { mapping = msg[&apos;OBR&apos;][&apos;OBR.24&apos;][&apos;OBR.24.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;system_type&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>system_type</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;OBR&apos;][&apos;OBR.24&apos;][&apos;OBR.24.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>5</sequenceNumber>
+          <name>order_id_other</name>
+          <script>var mapping;try { mapping = msg[&apos;ORC&apos;][&apos;ORC.8&apos;][&apos;ORC.8.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;order_id_other&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>order_id_other</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;ORC&apos;][&apos;ORC.8&apos;][&apos;ORC.8.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>6</sequenceNumber>
+          <name>C3PR Check</name>
+          <script>//For Test purposes
+/*
+channelMap.put(&apos;Treatment_Check&apos;,1);
+channelMap.put(&apos;ActiveStudy_Check&apos;,1);
+return true;
+*/
+
+
+//Create a connection to C3PR
+var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var SQL_epoch = 
+&quot;Select ident.value, stu_sub.id as stu_sub_id, demog.id as demographics_id, prt.first_name, prt.last_name, _epochs.type, sch_epochs.sc_epoch_workflow_status as status, _epochs.epoch_order &quot;+
+&quot;FROM identifiers ident &quot;+
+&quot;JOIN participants prt ON prt.id = ident.prt_id &quot;+
+&quot;JOIN stu_sub_demographics demog ON demog.prt_id = prt.id &quot;+
+&quot;JOIN study_subjects stu_sub ON demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+
+&quot;JOIN study_subject_versions stu_sub_ver ON stu_sub_ver.spa_id = stu_sub.id &quot;+
+&quot;JOIN scheduled_epochs sch_epochs ON stu_sub_ver.id = sch_epochs.study_subject_ver_id &quot;+
+&quot;JOIN epochs _epochs ON sch_epochs.eph_id = _epochs.id &quot;+
+&quot;WHERE (ident.type LIKE &apos;MRN&apos; OR ident.primary_indicator = TRUE) and ident.dtype LIKE &apos;OAI&apos; and lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) &quot;+
+&quot;GROUP BY ident.value, stu_sub.id , demog.id , prt.first_name, prt.last_name, _epochs.type, sch_epochs.sc_epoch_workflow_status, _epochs.epoch_order, sch_epochs.id &quot;+
+&quot;HAVING ( sch_epochs.id = ( &quot;+
+&quot;	SELECT max(sch_epochs_alt.id) &quot;+ 
+&quot;	FROM  study_subject_versions stu_sub_ver_alt &quot;+
+&quot;	JOIN scheduled_epochs sch_epochs_alt ON stu_sub_ver_alt.id = sch_epochs_alt.study_subject_ver_id &quot;+
+&quot;	WHERE stu_sub_ver_alt.spa_id = stu_sub.id &quot;+
+&quot;)) &quot;+
+&quot;ORDER BY _epochs.epoch_order desc &quot;;
+//&quot;ORDER BY  sch_epochs.id asc &quot;;
+
+//Get first value with high value
+
+
+var SQL_study = &quot;Select Distinct stu.id,  ident.value,  prt.first_name,  prt.last_name,  stu_ver.version_status,  stu.status &quot;+
+&quot;From   studies stu &quot;+ 
+&quot;Inner Join study_versions stu_ver On stu_ver.study_id = stu.id &quot;+
+&quot;Inner Join study_site_versions stu_sit_ver On stu_sit_ver.stu_version_id = stu_ver.id &quot;+
+&quot;Inner Join study_subject_versions stu_sub_ver On stu_sub_ver.study_site_ver_id = stu_sit_ver.id &quot;+
+&quot;Inner Join study_subjects stu_sub On stu_sub.id = stu_sub_ver.spa_id &quot;+ 
+&quot;Inner Join stu_sub_demographics demog On demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+ 
+&quot;Inner Join participants prt On demog.prt_id = prt.id &quot;+ 
+&quot;Inner Join identifiers ident On prt.id = ident.prt_id &quot;+
+&quot;Where stu_ver.version_status Like &apos;AC&apos; And stu.status Like &apos;OPEN&apos; And ident.type Like &apos;MRN&apos; And ident.dtype Like &apos;OAI&apos; And lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) And stu_sub.reg_workflow_status Not In (&apos;OFF_STUDY&apos;, &apos;NOT_REGISTERED&apos;, &apos;INVALID&apos;)&quot;;
+
+
+//if it is not null thne ok
+
+var SQL_study_site = 
+
+&quot;Select Distinct stu.id,  ident.value,  prt.first_name,  prt.last_name,  stu_ver.version_status,  stu.status, site_name.value &quot;+
+&quot;From   studies stu &quot;+ 
+&quot;Inner Join study_versions stu_ver On stu_ver.study_id = stu.id &quot;+ 
+&quot;Inner Join study_site_versions stu_sit_ver On stu_sit_ver.stu_version_id = stu_ver.id &quot;+ 
+&quot;Inner Join study_organizations st_or ON st_or.study_id = stu.id &quot;+
+&quot;Inner Join identifiers site_name ON site_name.org_id = st_or.hcs_id &quot;+
+&quot;Inner Join study_subject_versions stu_sub_ver On stu_sub_ver.study_site_ver_id = stu_sit_ver.id &quot;+ 
+&quot;Inner Join study_subjects stu_sub On stu_sub.id = stu_sub_ver.spa_id &quot;+ 
+&quot;Inner Join stu_sub_demographics demog On demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+  
+&quot;Inner Join participants prt On demog.prt_id = prt.id &quot;+ 
+&quot;Inner Join identifiers ident On prt.id = ident.prt_id &quot;+ 
+&quot;Where stu_ver.version_status Like &apos;AC&apos; And stu.status Like &apos;OPEN&apos; And (ident.type Like &apos;MRN&apos; OR ident.primary_indicator = TRUE) And ident.dtype Like &apos;OAI&apos; And lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) And stu_sub.reg_workflow_status Not In (&apos;OFF_STUDY&apos;, &apos;NOT_REGISTERED&apos;, &apos;INVALID&apos;) AND site_name.value in (&apos;AR006-CCTO&apos;)&quot;; 
+
+
+
+var result = dbConn.executeCachedQuery(SQL_study_site);
+
+var ActiveStudyCheck = 0;
+
+var Treatment_Check = 0;
+var FollowUp_Check = 0;
+
+if(result.next())
+{
+	ActiveStudyCheck = 1;
+	var result_epoch = dbConn.executeCachedQuery(SQL_epoch);
+
+	var max_order = 0;
+	var order_check = true;
+
+	
+	if(result_epoch.next())
+	{
+		if((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;))
+		{
+			FollowUp_Check = 0;		
+		}
+		else if(((result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;)) || ((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;OFF_EPOCH&apos;)))	
+		{
+			Treatment_Check = 1;
+		}
+
+		// Old else if((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;RESERVING&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) || ((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;REGISTERED&apos;))) //Buraya system i ekle
+		
+	}
+
+
+	/*while(result_epoch.next() &amp;&amp; order_check)
+	{
+		if(result_epoch.getInt(&apos;epoch_order&apos;) &gt;= max_order)
+		{
+			max_order = result_epoch.getInt(&apos;epoch_order&apos;);
+			if((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;))
+			{
+				FollowUp_Check = 1;		
+			}
+			else if((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;RESERVING&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) || ((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;REGISTERED&apos;))) //Buraya system i ekle
+			{
+				Treatment_Check = 1;
+			}
+		}
+		else
+		{
+			order_check = false;
+		}
+	}*/
+}
+
+dbConn.close();
+
+channelMap.put(&apos;Followup_Check&apos;,FollowUp_Check);
+channelMap.put(&apos;Treatment_Check&apos;,Treatment_Check);
+channelMap.put(&apos;ActiveStudy_Check&apos;,ActiveStudyCheck);</script>
+          <type>JavaScript</type>
+          <data class="map">
+            <entry>
+              <string>Script</string>
+              <string>//For Test purposes
+/*
+channelMap.put(&apos;Treatment_Check&apos;,1);
+channelMap.put(&apos;ActiveStudy_Check&apos;,1);
+return true;
+*/
+
+
+//Create a connection to C3PR
+var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var SQL_epoch = 
+&quot;Select ident.value, stu_sub.id as stu_sub_id, demog.id as demographics_id, prt.first_name, prt.last_name, _epochs.type, sch_epochs.sc_epoch_workflow_status as status, _epochs.epoch_order &quot;+
+&quot;FROM identifiers ident &quot;+
+&quot;JOIN participants prt ON prt.id = ident.prt_id &quot;+
+&quot;JOIN stu_sub_demographics demog ON demog.prt_id = prt.id &quot;+
+&quot;JOIN study_subjects stu_sub ON demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+
+&quot;JOIN study_subject_versions stu_sub_ver ON stu_sub_ver.spa_id = stu_sub.id &quot;+
+&quot;JOIN scheduled_epochs sch_epochs ON stu_sub_ver.id = sch_epochs.study_subject_ver_id &quot;+
+&quot;JOIN epochs _epochs ON sch_epochs.eph_id = _epochs.id &quot;+
+&quot;WHERE (ident.type LIKE &apos;MRN&apos; OR ident.primary_indicator = TRUE) and ident.dtype LIKE &apos;OAI&apos; and lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) &quot;+
+&quot;GROUP BY ident.value, stu_sub.id , demog.id , prt.first_name, prt.last_name, _epochs.type, sch_epochs.sc_epoch_workflow_status, _epochs.epoch_order, sch_epochs.id &quot;+
+&quot;HAVING ( sch_epochs.id = ( &quot;+
+&quot;	SELECT max(sch_epochs_alt.id) &quot;+ 
+&quot;	FROM  study_subject_versions stu_sub_ver_alt &quot;+
+&quot;	JOIN scheduled_epochs sch_epochs_alt ON stu_sub_ver_alt.id = sch_epochs_alt.study_subject_ver_id &quot;+
+&quot;	WHERE stu_sub_ver_alt.spa_id = stu_sub.id &quot;+
+&quot;)) &quot;+
+&quot;ORDER BY _epochs.epoch_order desc &quot;;
+//&quot;ORDER BY  sch_epochs.id asc &quot;;
+
+//Get first value with high value
+
+
+var SQL_study = &quot;Select Distinct stu.id,  ident.value,  prt.first_name,  prt.last_name,  stu_ver.version_status,  stu.status &quot;+
+&quot;From   studies stu &quot;+ 
+&quot;Inner Join study_versions stu_ver On stu_ver.study_id = stu.id &quot;+
+&quot;Inner Join study_site_versions stu_sit_ver On stu_sit_ver.stu_version_id = stu_ver.id &quot;+
+&quot;Inner Join study_subject_versions stu_sub_ver On stu_sub_ver.study_site_ver_id = stu_sit_ver.id &quot;+
+&quot;Inner Join study_subjects stu_sub On stu_sub.id = stu_sub_ver.spa_id &quot;+ 
+&quot;Inner Join stu_sub_demographics demog On demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+ 
+&quot;Inner Join participants prt On demog.prt_id = prt.id &quot;+ 
+&quot;Inner Join identifiers ident On prt.id = ident.prt_id &quot;+
+&quot;Where stu_ver.version_status Like &apos;AC&apos; And stu.status Like &apos;OPEN&apos; And ident.type Like &apos;MRN&apos; And ident.dtype Like &apos;OAI&apos; And lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) And stu_sub.reg_workflow_status Not In (&apos;OFF_STUDY&apos;, &apos;NOT_REGISTERED&apos;, &apos;INVALID&apos;)&quot;;
+
+
+//if it is not null thne ok
+
+var SQL_study_site = 
+
+&quot;Select Distinct stu.id,  ident.value,  prt.first_name,  prt.last_name,  stu_ver.version_status,  stu.status, site_name.value &quot;+
+&quot;From   studies stu &quot;+ 
+&quot;Inner Join study_versions stu_ver On stu_ver.study_id = stu.id &quot;+ 
+&quot;Inner Join study_site_versions stu_sit_ver On stu_sit_ver.stu_version_id = stu_ver.id &quot;+ 
+&quot;Inner Join study_organizations st_or ON st_or.study_id = stu.id &quot;+
+&quot;Inner Join identifiers site_name ON site_name.org_id = st_or.hcs_id &quot;+
+&quot;Inner Join study_subject_versions stu_sub_ver On stu_sub_ver.study_site_ver_id = stu_sit_ver.id &quot;+ 
+&quot;Inner Join study_subjects stu_sub On stu_sub.id = stu_sub_ver.spa_id &quot;+ 
+&quot;Inner Join stu_sub_demographics demog On demog.id = stu_sub.stu_sub_dmgphcs_id &quot;+  
+&quot;Inner Join participants prt On demog.prt_id = prt.id &quot;+ 
+&quot;Inner Join identifiers ident On prt.id = ident.prt_id &quot;+ 
+&quot;Where stu_ver.version_status Like &apos;AC&apos; And stu.status Like &apos;OPEN&apos; And (ident.type Like &apos;MRN&apos; OR ident.primary_indicator = TRUE) And ident.dtype Like &apos;OAI&apos; And lpad(ident.value,20,&apos;0&apos;) = lpad(&apos;&quot;+$(&apos;mrn&apos;)+&quot;&apos;,20,&apos;0&apos;) And stu_sub.reg_workflow_status Not In (&apos;OFF_STUDY&apos;, &apos;NOT_REGISTERED&apos;, &apos;INVALID&apos;) AND site_name.value in (&apos;AR006-CCTO&apos;)&quot;; 
+
+
+
+var result = dbConn.executeCachedQuery(SQL_study_site);
+
+var ActiveStudyCheck = 0;
+
+var Treatment_Check = 0;
+var FollowUp_Check = 0;
+
+if(result.next())
+{
+	ActiveStudyCheck = 1;
+	var result_epoch = dbConn.executeCachedQuery(SQL_epoch);
+
+	var max_order = 0;
+	var order_check = true;
+
+	
+	if(result_epoch.next())
+	{
+		if((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;))
+		{
+			FollowUp_Check = 0;		
+		}
+		else if(((result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;)) || ((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;OFF_EPOCH&apos;)))	
+		{
+			Treatment_Check = 1;
+		}
+
+		// Old else if((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;RESERVING&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) || ((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;REGISTERED&apos;))) //Buraya system i ekle
+		
+	}
+
+
+	/*while(result_epoch.next() &amp;&amp; order_check)
+	{
+		if(result_epoch.getInt(&apos;epoch_order&apos;) &gt;= max_order)
+		{
+			max_order = result_epoch.getInt(&apos;epoch_order&apos;);
+			if((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) == &apos;REGISTERED&apos;))
+			{
+				FollowUp_Check = 1;		
+			}
+			else if((result_epoch.getString(&apos;type&apos;) == &apos;TREATMENT&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;RESERVING&apos;) || (result_epoch.getString(&apos;type&apos;) == &apos;SCREENING&apos;) || ((result_epoch.getString(&apos;type&apos;) == &apos;FOLLOWUP&apos;) &amp;&amp; (result_epoch.getString(&apos;status&apos;) != &apos;REGISTERED&apos;))) //Buraya system i ekle
+			{
+				Treatment_Check = 1;
+			}
+		}
+		else
+		{
+			order_check = false;
+		}
+	}*/
+}
+
+dbConn.close();
+
+channelMap.put(&apos;Followup_Check&apos;,FollowUp_Check);
+channelMap.put(&apos;Treatment_Check&apos;,Treatment_Check);
+channelMap.put(&apos;ActiveStudy_Check&apos;,ActiveStudyCheck);</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>7</sequenceNumber>
+          <name>hbo_id</name>
+          <script>var mapping;try { mapping = msg[&apos;PV1&apos;][&apos;PV1.7&apos;][&apos;PV1.7.1&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;hbo_id&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>hbo_id</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;PV1&apos;][&apos;PV1.7&apos;][&apos;PV1.7.1&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+      </steps>
+      <inboundTemplate encoding="base64">TVNIfF5+XCZ8fEVQSUN8fHwyMDE0MDMxODEwMTI1OXxMQUJCQUNLR1JPVU5EfE9SVV5SMDF8Mzk1
+N3xUfDIuM3x8fHx8fHx8fA1QSUR8MXx8MDAzMDA4MzY4Xl5eSFFBXk1SfHxFUElDUFJDVF5IT0RU
+V0VOVFl8fDE5OTMwMjE1fEZ8fFd8UE8gQk9YIDM4Ml5eSEVMRU5BXkFSXjcyMzQyXlVTXl5eUEhJ
+TExJUFN8UEhJTExJUFN8KDg3MCkzMzgtODE1NF5QXlBIXl5eODcwXjMzODgxNTR8fHxTaW5nbGV8
+fDEwMDAwMDAwMDIwMDQxfDIyMi0yMi0zNjc1fHx8Tkh8DVBWMXx8fENUTF5eXkNCXl5eXl5eXkRF
+UHx8fHx8fHx8fHx8fHx8fHwxMDAwMDAwMDAyMDA0MXx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHwy
+MDE0MDMxODA4MzIyNw1PUkN8UkV8fDE0VTA3N0hFMDAwMDNeQmVha2VyfHx8fF5PbmNlXl4yMDE0
+MDMxODA5MDkwMF4yMDE0MDMxOF5SXl5TdGFuZGluZ15eXl4xfHwyMDE0MDMxODA5MDgzOXwxOTc5
+MDE3MF5PTExFQ0heQ0FMRUJeSl58fDAwODc3Ml5BQkRBTExBSF5BTC1PTEFeQS5eXl5eXlBST1ZJ
+RF5eXl5QUk9WSUR8MTAxMTA5MTAwXl5eMTAxMTA5Xl5eXl5DRUxMIFRIRVJBUFkgQVBIRVJFU0lT
+fCg1MDEpNTI2LTY5OTBeXl5eXjUwMV41MjY2OTkwfHx8fENMSVNVUF5FUElDIFNVUFBPUlReXjEw
+MTEwMjEwM15VQU1TIERFUEFSVE1FTlQgT0YgRkFNSUxZIEFORCBQUkVWRU5USVZFIE1FRElDSU5F
+fHx8fHx8NDMwMSBXLiBNQVJLSEFNIFNULl4jNzc2XkxJVFRMRSBST0NLXkFSXjcyMjA1Xl5eXg1P
+QlJ8MXx8MTRVMDc3SEUwMDAwM15CZWFrZXJ8TEFCMTc0OF5DQkMgV0lUSCBBVVRPIERJRkZFUkVO
+VElBTF5eXkNCQyBXLyBBVVRPfHwyMDE0MDMxODA5MDgzOXwyMDE0MDMxODA5MjgwMHx8fElQUk5e
+SU5QQVRJRU5UXk5VUlNFXl58fHx8MjAxNDAzMTgwOTM1MjR8Qmxvb2QmQmxvb2R8MDA4NzcyXkFC
+REFMTEFIXkFMLU9MQV5BLl5eXl5eUFJPVklEXl5eXlBST1ZJRHwoNTAxKTUyNi02OTkwXl5eXl41
+MDFeNTI2Njk5MHx8fHx8MjAxNDAzMTgxMDEyMDB8fExhYiBPbmx5fEZ8fF5PbmNlXl4yMDE0MDMx
+ODA5MDkwMF4yMDE0MDMxOF5SXl5TdGFuZGluZ15eXl4xfHx8fHx8fHx8fHx8fHx8fHx8DU9CWHwx
+fFNUfDE0MDZeV0hJVEUgQkxPT0QgQ0VMTCBDT1VOVF5CRUFLTFJSfHw0LjAwfEsvdUx8My4wMC0x
+Mi4wMHx8fHxGfHwxMXx8MTk1fA1PQlh8MnxTVHwxNTc3MjEyXlJFRCBCTE9PRCBDRUxMIENPVU5U
+XkJFQUtMUlJ8fDQuMDB8TS91THwzLjgwLTUuMjB8fHx8Rnx8MTF8fDE5NXwNT0JYfDN8U1R8MTUz
+NDQzNV5IRU1PR0xPQklOXkJFQUtMUlJ8fDEyLjB8Zy9kTHwxMS41LTE2LjB8fHx8Rnx8MTF8fDE5
+NXwNT0JYfDR8U1R8MTUzNDQzNl5IRU1BVE9DUklUXkJFQUtMUlJ8fDM1LjB8JXwzNC4wLTQ3LjB8
+fHx8Rnx8MTF8fDE5NXwNT0JYfDV8U1R8MTU3NjkzNF5NRUFOIENPUlBVU0NVTEFSIFZPTFVNRV5C
+RUFLTFJSfHw5MHxmTHw3OS05OXx8fHxGfHwxMXx8MTk1fA1PQlh8NnxTVHwxNTc2OTMwXk1FQU4g
+Q09SUFVTQ1VMQVIgSEVNT0dMT0JJTl5CRUFLTFJSfHwzMC4wfHBnfDI3LjAtMzYuMHx8fHxGfHwx
+MXx8MTk1fA1PQlh8N3xTVHwxNTc2OTMyXk1FQU4gQ09SUFVTQ1VMQVIgSEVNT0dMT0JJTiBDT05D
+XkJFQUtMUlJ8fDMyLjB8Zy9kTHwzMC4wLTM2LjB8fHx8Rnx8MTF8fDE5NXwNT0JYfDh8U1R8MTUz
+NDQzN15SRUQgQ0VMTCBESVNUUklCVVRJT04gV0lEVEheQkVBS0xSUnx8MTIuMHwlfDExLjAtMTQu
+MHx8fHxGfHwxMXx8MTk1fA1PQlh8OXxTVHwxNTc3MTE2XlBMQVRFTEVUIENPVU5UXkJFQUtMUlJ8
+fDI1MHxLL7VMfDE1MC01MDB8fHx8Rnx8MTF8fDE5NXwNT0JYfDEwfFNUfDE1NzY5ODBeTUVBTiBQ
+TEFURUxFVCBWT0xVTUVeQkVBS0xSUnx8OS4wfGZMfDguMS0xMi44fHx8fEZ8fDExfHwxOTV8DU9C
+WHwxMXxTVHw0NzBeTkVVVFJPUEhJTFMsIEFVVE9eQkVBS0xSUnx8NTAuMHwlfDQwLjAtODAuMHx8
+fHxGfHwxMXx8MTk1fA1PQlh8MTJ8U1R8NDY5XkxZTVBIUywgQVVUT15CRUFLTFJSfHwxMi4wfCV8
+MTAuMC02MC4wfHx8fEZ8fDExfHwxOTV8DU9CWHwxM3xTVHw0NjReTU9OT0NZVEVTLCBBVVRPXkJF
+QUtMUlJ8fDEwLjB8JXwwLjAtMjAuMHx8fHxGfHwxMXx8MTk1fA1PQlh8MTR8U1R8NDY1XkVPU0lO
+T1BISUxTLCBBVVRPXkJFQUtMUlJ8fDUuMHwlfDAuMC0xMC4wfHx8fEZ8fDExfHwxOTV8DU9CWHwx
+NXxTVHw0NjZeQkFTT1BISUxTLCBBVVRPXkJFQUtMUlJ8fDIuMHwlfDAuMC01LjB8fHx8Rnx8MTF8
+fDE5NXwNT0JYfDE2fFNUfDQ2N15JTU1BVFVSRSBHUkFOUywgQVVUT15CRUFLTFJSfHwxMi4wfCV8
+fHx8fEZ8fDExfHwxOTV8DU9CWHwxN3xTVHw0NjheTlVDTEVBVEVEIFJCQ15CRUFLTFJSfHwxMHwj
+LzEwMCBXQkN8fHx8fEZ8fDExfHwxOTV8DU9CWHwxOHxTVHwxNTU4MTAxXk5FVVRST1BISUxTIEFC
+U09MVVRFIENPVU5UXkJFQUtMUlJ8fDQuMHxLL3VMfDIuNS04LjJ8fHx8Rnx8MTF8fDE5NXwNT0JY
+fDE5fFNUfDE1MzQ0NDReTFlNUEhPQ1lURVMgQUJTT0xVVEUgQ09VTlReQkVBS0xSUnx8NC4wfEsv
+dUx8MS4wLTQuOHx8fHxGfHwxMXx8MTk1fA1PQlh8MjB8U1R8MTUzNDQ0Nl5NT05PQ1lURVMgQUJT
+T0xVVEUgQ09VTlReQkVBS0xSUnx8MC4yfEsvdUx8MC4xLTEuMHx8fHxGfHwxMXx8MTk1fA1PQlh8
+MjF8U1R8MTUzNDQ0OF5FT1NJTk9QSElMUyBBQlNPTFVURSBDT1VOVF5CRUFLTFJSfHwwLjMwfEsv
+dUx8MC4wMC0wLjQwfHx8fEZ8fDExfHwxOTV8DU9CWHwyMnxTVHwxNTM0NDUwXkJBU09QSElMUyBB
+QlNPTFVURSBDT1VOVF5CRUFLTFJSfHwwLjIwfEsvdUx8MC4wMC0wLjIyfHx8fEZ8fDExfHwxOTV8
+DU9CWHwyM3xTVHw0NjNeSU1NQVRVUkUgR1JBTlMsIEFCU09MVVRFXkJFQUtMUlJ8fDAuMXxLL3VM
+fHx8fHxGfHwxMXx8MTk1fA0=</inboundTemplate>
+      <outboundTemplate encoding="base64"></outboundTemplate>
+      <inboundProtocol>HL7V2</inboundProtocol>
+      <outboundProtocol>HL7V2</outboundProtocol>
+      <inboundProperties>
+        <property name="convertLFtoCR">true</property>
+        <property name="handleRepetitions">false</property>
+        <property name="handleSubcomponents">false</property>
+        <property name="stripNamespaces">true</property>
+        <property name="useStrictParser">false</property>
+        <property name="useStrictValidation">false</property>
+      </inboundProperties>
+      <outboundProperties>
+        <property name="convertLFtoCR">true</property>
+        <property name="handleRepetitions">false</property>
+        <property name="handleSubcomponents">false</property>
+        <property name="stripNamespaces">true</property>
+        <property name="useStrictParser">false</property>
+        <property name="useStrictValidation">false</property>
+      </outboundProperties>
+    </transformer>
+    <filter>
+      <rules>
+        <rule>
+          <sequenceNumber>0</sequenceNumber>
+          <name>New Rule</name>
+          <data class="map">
+            <entry>
+              <string>Script</string>
+              <string>return true;</string>
+            </entry>
+          </data>
+          <type>JavaScript</type>
+          <script>return true;</script>
+          <operator>NONE</operator>
+        </rule>
+      </rules>
+    </filter>
+    <transportName>LLP Listener</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <version>2.1.1.5490</version>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector>
+      <name>Original Message (Database Writer)</name>
+      <properties>
+        <property name="DataType">JavaScript Writer</property>
+        <property name="host">sink</property>
+        <property name="script">var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var raw_message = new String(messageObject.getRawData());
+
+raw_message = raw_message.replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+
+var InsertOriginalMessageSQL = &quot;INSERT INTO lab_results_hl7 (original_message) VALUES (&apos;&quot;+raw_message+&quot;&apos;)&quot;;
+
+var result = dbConn.executeUpdate(InsertOriginalMessageSQL);
+
+var LastMessageIDSQL = &quot;SELECT max(id) FROM lab_results_hl7&quot;;
+
+var result = dbConn.executeCachedQuery(LastMessageIDSQL);
+
+var MAXid = -1;
+
+if(result.next())
+{
+ MAXid = result.getInt(&quot;max&quot;);
+ 
+ //globalChannelMap.put(&quot;LastMessageId&quot;,MAXid);	
+}
+
+
+
+globalMap.put(&apos;LastMessageId&apos;,MAXid);
+//globalChannelMap.put(&quot;LastMessageId&quot;,0);	</property>
+      </properties>
+      <transformer>
+        <steps/>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <inboundProtocol>HL7V2</inboundProtocol>
+        <outboundProtocol>HL7V2</outboundProtocol>
+        <inboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules>
+          <rule>
+            <sequenceNumber>0</sequenceNumber>
+            <name>Source Check</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	logger.error(&quot;First Filter | Source : &quot;+$(&apos;Source&apos;));
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	logger.error(&quot;First Filter | Source : &quot;+$(&apos;Source&apos;));
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</script>
+            <operator>NONE</operator>
+          </rule>
+          <rule>
+            <sequenceNumber>1</sequenceNumber>
+            <name>MRN Check</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>return true;</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>return true;</script>
+            <operator>AND</operator>
+          </rule>
+          <rule>
+            <sequenceNumber>2</sequenceNumber>
+            <name>New Rule</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>var ordering_system = new String($(&apos;order_id_forPSC&apos;));
+
+
+if(ordering_system.length &gt;2)
+{
+ordering_system = ordering_system.substring(ordering_system.length-3,ordering_system.length);
+}
+
+var Check_For_FollowUp_And_System =  false;
+
+if(($(&apos;Followup_Check&apos;) == 1))
+{
+	Check_For_FollowUp_And_System = true;
+}
+
+var Check_For_Treatment_And_FollowUp = false;
+
+if(($(&apos;Treatment_Check&apos;) == 1) || Check_For_FollowUp_And_System)
+{
+	Check_For_Treatment_And_FollowUp = true;
+}
+
+var All_Checks_And_Active_Study_Check = false;
+
+if(($(&apos;ActiveStudy_Check&apos;) == 1) &amp;&amp; Check_For_Treatment_And_FollowUp)
+{
+	All_Checks_And_Active_Study_Check = true;
+}
+
+//if(($(&apos;ActiveStudy_Check&apos;) == 1) &amp;&amp; (($(&apos;Treatment_Check&apos;) == 1) || (($(&apos;Followup_Check&apos;) == 1) &amp;&amp; (ordering_system == &apos;PSC&apos;))))
+if(All_Checks_And_Active_Study_Check)
+{
+	channelMap.put(&quot;IsValid&quot;,1);
+	return true;
+}
+else
+{
+	channelMap.put(&quot;IsValid&quot;,0);
+	return false;
+}
+/*
+
+if(($(&apos;ActiveStudy_Check&apos;) == 1){
+	if($(&apos;Treatment_Check&apos;) == 1){
+		channelMap.put(&quot;IsValid&quot;,1);
+		return true;
+	}
+	
+	if((($(&apos;Followup_Check&apos;) == 1) &amp;&amp; ($(&apos;source_application&apos;) == &apos;PSC&apos;))){
+		channelMap.put(&quot;IsValid&quot;,1);
+		return true;
+	}
+}
+
+channelMap.put(&quot;IsValid&quot;,0);
+return false;
+
+*/</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>var ordering_system = new String($(&apos;order_id_forPSC&apos;));
+
+
+if(ordering_system.length &gt;2)
+{
+ordering_system = ordering_system.substring(ordering_system.length-3,ordering_system.length);
+}
+
+var Check_For_FollowUp_And_System =  false;
+
+if(($(&apos;Followup_Check&apos;) == 1))
+{
+	Check_For_FollowUp_And_System = true;
+}
+
+var Check_For_Treatment_And_FollowUp = false;
+
+if(($(&apos;Treatment_Check&apos;) == 1) || Check_For_FollowUp_And_System)
+{
+	Check_For_Treatment_And_FollowUp = true;
+}
+
+var All_Checks_And_Active_Study_Check = false;
+
+if(($(&apos;ActiveStudy_Check&apos;) == 1) &amp;&amp; Check_For_Treatment_And_FollowUp)
+{
+	All_Checks_And_Active_Study_Check = true;
+}
+
+//if(($(&apos;ActiveStudy_Check&apos;) == 1) &amp;&amp; (($(&apos;Treatment_Check&apos;) == 1) || (($(&apos;Followup_Check&apos;) == 1) &amp;&amp; (ordering_system == &apos;PSC&apos;))))
+if(All_Checks_And_Active_Study_Check)
+{
+	channelMap.put(&quot;IsValid&quot;,1);
+	return true;
+}
+else
+{
+	channelMap.put(&quot;IsValid&quot;,0);
+	return false;
+}
+/*
+
+if(($(&apos;ActiveStudy_Check&apos;) == 1){
+	if($(&apos;Treatment_Check&apos;) == 1){
+		channelMap.put(&quot;IsValid&quot;,1);
+		return true;
+	}
+	
+	if((($(&apos;Followup_Check&apos;) == 1) &amp;&amp; ($(&apos;source_application&apos;) == &apos;PSC&apos;))){
+		channelMap.put(&quot;IsValid&quot;,1);
+		return true;
+	}
+}
+
+channelMap.put(&quot;IsValid&quot;,0);
+return false;
+
+*/</script>
+            <operator>AND</operator>
+          </rule>
+        </rules>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.1.1.5490</version>
+    </connector>
+    <connector>
+      <name>Lab Result (Database Writer)</name>
+      <properties>
+        <property name="DataType">Database Writer</property>
+        <property name="URL">jdbc:postgresql://server:5432/database</property>
+        <property name="driver">org.postgresql.Driver</property>
+        <property name="host">query</property>
+        <property name="password">password</property>
+        <property name="query"></property>
+        <property name="script">/*Select * from lab_results*/</property>
+        <property name="useScript">1</property>
+        <property name="username">username</property>
+      </properties>
+      <transformer>
+        <steps>
+          <step>
+            <sequenceNumber>0</sequenceNumber>
+            <name>New Step</name>
+            <script>function isNumber(input) {
+    return (input - 0) == input &amp;&amp; (&apos;&apos;+input).replace(/^\s+|\s+$/g, &quot;&quot;).length &gt; 0;
+}
+
+var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var OBR_Lab_Type = &quot;&quot;;
+var Labs = new Array(); 
+var LabID = 0;
+var SendApp = &quot;&quot;;
+
+
+//Rule 1 : Check if HL7 contains report
+var ReportTypes = new Array(&quot;Pathology Surgical&quot;,&quot;Fungal ID&quot;,&quot;Miscellaneous Culture&quot;,&quot;Fungal Culture&quot;,&quot;Blood Culture&quot;,&quot;Abs/Wnd Culture&quot;,&quot;Tissue Culture&quot;,&quot;Urine Culture&quot;,&quot;Body Fld Culture&quot;,&quot;Pathology GYN&quot;,&quot;Pathology Medical&quot;);
+var HasReport = 0;
+var Report = &quot;&quot;;
+//End of Rules 1
+var correction_check = 0;
+var correction_result_id ;
+
+
+
+
+var order_id = &quot;&quot;;
+var order_date = null;
+
+
+for each (seg in msg.children())
+{
+	if(seg.name() == &quot;OBR&quot;)
+	{
+		OBR_Lab_Type = seg[&apos;OBR.4&apos;][&apos;OBR.4.2&apos;].toString();
+		
+		for(var i=0;i&lt;ReportTypes.length;i++)
+		{
+			if(ReportTypes[i] == OBR_Lab_Type)
+			{
+				HasReport = 1;
+			}			
+		}
+
+		order_id = seg[&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString(); 
+		
+		if(order_id == &quot;&quot;)
+		{
+			order_id = $(&apos;order_id_other&apos;); // Check OBR 2 if it is empty check ORC 8
+		}
+
+		if(order_id == &quot;&quot;)
+		{
+			order_id = &quot;&quot;; //&quot;No Order ID&quot;;
+		}
+		else
+		{
+			var order_id_parts = order_id.split(&quot;-&quot;);
+			
+			order_id = order_id_parts[0];
+
+			if(order_id_parts.length &gt; 1)
+			{
+			  var OrderID_Second_Part = new String(order_id_parts[1]);	
+			  SendApp = OrderID_Second_Part.replace(/[0-9]/g,&apos;&apos;); // Remove numbers in order types (e.g. 02PSC - &gt; PSC)
+			}
+			else
+			{
+			SendApp = &quot;&quot;;
+			}
+			
+		}
+		
+	}
+	else if(seg.name() == &quot;ORC&quot;)
+	{
+		order_date = seg[&apos;ORC.9&apos;][&apos;ORC.9.1&apos;].toString();
+		//order_date = msg[&apos;ORC&apos;][&apos;ORC.9&apos;][&apos;ORC.9.1&apos;].toString();	
+		order_date = order_date.substring(0,4)+&quot;-&quot;+ order_date.substring(4,6)+&quot;-&quot;+order_date.substring(6,8);
+
+	}	
+	else if(seg.name() == &quot;OBX&quot;)
+	{
+	correction_check = 0;
+
+	//if(seg[&apos;OBX.11&apos;][&apos;OBX.11.1&apos;].toString() == &quot;F&quot;)
+	//{	
+		if((LabID == 0) || (HasReport == 0))
+		{
+			Labs[LabID] = new Object();
+			
+			Labs[LabID].mrn = $(&apos;mrn&apos;); //OK
+			Labs[LabID].orderid = order_id; //OK
+			Labs[LabID].range_low = null; //OK
+			Labs[LabID].range_high = null; //OK
+			Labs[LabID].numberic_result = null; //OK
+			Labs[LabID].result_date = null;//OK
+			Labs[LabID].order_date = order_date; //OK
+			Labs[LabID].toxicity = null;
+			Labs[LabID].toxicity_grade = null; 
+			Labs[LabID].unit = null;//OK
+			Labs[LabID].original_req_app = $(&apos;source_application&apos;); //OK
+			Labs[LabID].lab_test = null;//OK
+			Labs[LabID].lab_test_code = null;//OK
+			Labs[LabID].report = &quot;&quot;; //OK
+			Labs[LabID].report_flag = &quot;FALSE&quot;; //OK
+			Labs[LabID].comment = &quot;&quot;;
+			Labs[LabID].comment_flag = &quot;FALSE&quot;; 
+			Labs[LabID].Original_HL7_ID = null;
+			Labs[LabID].System = SendApp;
+			Labs[LabID].LowHigh = &quot;&quot;;
+		    Labs[LabID].BeakerID = &quot;&quot;; 	
+
+			LabID = LabID + 1; 
+		}
+
+			
+		if(HasReport == 1)
+		{
+			Labs[LabID-1].report = Labs[LabID-1].report +&quot; &quot;+ seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			Labs[LabID-1].report_flag = &quot;TRUE&quot;;
+		}
+		else
+		{
+			//Test Name
+			if(Labs[LabID-1].original_req_app == &apos;INBLAB&apos;)
+			{
+				Labs[LabID-1].lab_test = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+				Labs[LabID-1].lab_test_code = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+			else
+			{
+				Labs[LabID-1].BeakerID = seg[&apos;OBX.3&apos;][&apos;OBX.3.1&apos;].toString()
+				Labs[LabID-1].lab_test = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+				Labs[LabID-1].lab_test_code = seg[&apos;OBX.3&apos;][&apos;OBX.3.4&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+
+			//Result Date
+			var result_date = seg[&apos;OBX.14&apos;][&apos;OBX.14.1&apos;].toString();
+			Labs[LabID-1].result_date = result_date.substring(0,4)+&quot;-&quot;+result_date.substring(4,6)+&quot;-&quot;+result_date.substring(6,8);
+			//Range
+			var sub_range_field = seg[&apos;OBX.7&apos;][&apos;OBX.7.1&apos;].toString();
+			if(sub_range_field != &quot;&quot;)
+			{
+				var sub_range = sub_range_field.split(&quot;-&quot;);
+				if(isNumber(sub_range[0]))
+				{
+				 	Labs[LabID-1].range_low= sub_range[0];
+				}
+
+				if(isNumber(sub_range[1]))
+				{
+					Labs[LabID-1].range_high = sub_range[1];
+				}
+			}
+			//Numeric Result
+			Labs[LabID-1].numberic_result = seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString();
+			//Unit
+			Labs[LabID-1].unit = seg[&apos;OBX.6&apos;][&apos;OBX.6.1&apos;].toString();
+
+			//Low High
+			if(Labs[LabID-1].lab_test_code == &quot;HGB&quot;)
+			{		
+				Labs[LabID-1].LowHigh = seg[&apos;OBX.8&apos;][&apos;OBX.8.1&apos;].toString();
+			}
+			
+		}
+
+	 /*}
+	 else
+	 {
+	 		
+			if(order_id != &quot;&quot;)
+			{
+				
+				var SelectExistLabResult = &quot;SELECT id from lab_results WHERE order_id =&apos;&quot; + order_id+&quot;&apos; and lab_test =&apos;&quot;+seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;)+&quot;&apos;&quot;;
+				var result = dbConn.executeCachedQuery(SelectExistLabResult);
+			    
+				if(result.next())
+				{
+				correction_check = 1;	
+				correction_result_id = result.getInt(&quot;id&quot;);
+				//Result Date
+				var result_date = seg[&apos;OBX.14&apos;][&apos;OBX.14.1&apos;].toString();
+				var result_date_processed = result_date.substring(0,4)+&quot;-&quot;+result_date.substring(4,6)+&quot;-&quot;+result_date.substring(6,8);	
+				//Range
+				var sub_range_field = seg[&apos;OBX.7&apos;][&apos;OBX.7.1&apos;].toString();
+				var range_low_processed = null;
+				var range_high_processed = null;
+				if(sub_range_field != &quot;&quot;)
+				{
+					var sub_range = sub_range_field.split(&quot;-&quot;);
+					range_low_processed= sub_range[0];
+					range_high_processed = sub_range[1];
+				}
+				///Numeric Result
+				var numberic_result_processed = seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString();
+				var OriginalMessageID =new String(globalMap.get(&apos;LastMessageId&apos;));
+				var LabUpdateSQL_Statement = &quot;UPDATE lab_results SET range_low=&quot;+range_low_processed+&quot; ,range_high=&quot;+range_high_processed+&quot; ,numeric_result=&apos;&quot;+numberic_result_processed +&quot;&apos; ,result_date=&apos;&quot;+result_date_processed+&quot;&apos; ,original_hl7_id=&quot;+OriginalMessageID+&quot; WHERE id=&quot;+result.getInt(&quot;id&quot;);
+				logger.error(&quot;Change SQL :&quot;+LabUpdateSQL_Statement);
+				dbConn.executeUpdate(LabUpdateSQL_Statement);
+				}
+			
+
+			}
+	 }*/			
+	}
+	else if(seg.name() == &quot;NTE&quot;)
+	{
+		if((LabID != 0) || (correction_check == 1))
+		{
+			if(correction_check == 0)
+			{
+				Labs[LabID-1].comment_flag = &quot;TRUE&quot;;
+				Labs[LabID-1].comment = Labs[LabID-1].comment +&quot; &quot;+seg[&apos;NTE.3&apos;][&apos;NTE.3.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+			else
+			{
+			var NoteUpdateSQL = &quot;UPDATE lab_results SET comment_text = comment_text || &apos;   \`&apos; || &apos;&quot;+seg[&apos;NTE.3&apos;][&apos;NTE.3.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;)+&quot;&apos; WHERE id=&quot;+correction_result_id;
+			logger.error(&quot;Change Note: &quot;+NoteUpdateSQL);
+			dbConn.executeUpdate(NoteUpdateSQL);	
+			}
+		}
+
+	}		
+}
+
+
+var LastMessageID =new String(globalMap.get(&apos;LastMessageId&apos;));
+var ID_ARRAY = LastMessageID.split(&quot;.&quot;);
+LastMessageID = ID_ARRAY[0];
+
+
+
+var InsertOriginalMessageSQL = &quot;INSERT INTO lab_results_HL7 (original_message) VALUES (&apos;&quot;+messageObject.getRawData()+&quot;&apos;)&quot;;
+
+var previous_orderid = &quot;&quot;;
+
+for(var l=0;l&lt;LabID;l++)
+{
+var InsertLabSQL_begin = &quot;INSERT INTO lab_results (order_id,mrn,range_low,range_high,numeric_result,result_date,order_date,toxicity,comment,comment_text,toxicity_grade,unit,original_req_app,lab_test,report_text,report,original_hl7_id,system,lab_test_code,HIGH_LOW,hbo_id,epic_beaker_id) &quot;;
+
+var InsertLabSQL_end=&quot;&quot;;
+
+
+
+
+//Unit mapping for EPIC
+/*var tmp_lab_test = getTestCode(Labs[l].BeakerID);
+if((tmp_lab_test == &apos;NA&apos;) || (tmp_lab_test == &apos;K&apos;) || (tmp_lab_test == &apos;PLAT&apos;) || (tmp_lab_test == &apos;PTT&apos;))
+{
+	Labs[l].unit = getUnit(Labs[l].BeakerID);
+}*/
+
+if(getUnit(Labs[l].BeakerID) != &quot;&quot;)
+{
+	Labs[l].unit = getUnit(Labs[l].BeakerID);
+}
+
+//End of Unit mapping for EPIC
+
+//if(Labs[l].result_date != null) //joseph-b changed 2013-7-31 to handle ERROR: invalid input syntax for type date: &quot;--&quot;
+if(Labs[l].result_date != null &amp;&amp; Labs[l].result_date != &quot;--&quot;)
+{
+      InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,&apos;&quot;+Labs[l].result_date+&quot;&apos;,&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+Labs[l].unit+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+Labs[l].System+&quot;&apos;,&apos;&quot;+Labs[l].lab_test_code+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&apos;)&quot;;
+	//InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,&apos;&quot;+Labs[l].result_date+&quot;&apos;,&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+getUnit(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+Labs[l].System+&quot;&apos;,&apos;&quot;+Labs[l].lab_test_code+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&apos;)&quot;;
+
+}
+else
+{
+      InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,now(),&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+Labs[l].unit+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+$(&apos;system_type&apos;)+&quot;&apos;,&apos;&quot;+getTestCode(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].BeakerID+&quot;&apos;)&quot;;
+	//InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,now(),&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+getUnit(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+$(&apos;system_type&apos;)+&quot;&apos;,&apos;&quot;+getTestCode(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].BeakerID+&quot;&apos;)&quot;;
+
+}
+
+var InsertLabSQL = InsertLabSQL_begin + InsertLabSQL_end;
+//logger.error(&quot;Query : &quot;+InsertLabSQL);
+dbConn.executeUpdate(InsertLabSQL);
+
+if((Labs[l].System != &quot;&quot;) &amp;&amp; (Labs[l].System != null))
+{
+	//var System_lowercase = new String(Labs[l].System);
+	//System_lowercase = System_lowercase.toLowerCase();
+
+ 	//if((Labs[l].System == &quot;PSC&quot;) || (System_lowercase == &quot;psc&quot;))	
+	if(Labs[l].System == &quot;PSC&quot;)
+ 	{
+		// Check code teplates for function definition.	
+		if(previous_orderid != Labs[l].orderid)
+		{
+			Update_Order_Status(Labs[l].orderid); // If it is a PSC order than it will change the state to occured.
+			previous_orderid = Labs[l].orderid;
+		}
+ 	}
+}
+
+}</script>
+            <type>JavaScript</type>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>function isNumber(input) {
+    return (input - 0) == input &amp;&amp; (&apos;&apos;+input).replace(/^\s+|\s+$/g, &quot;&quot;).length &gt; 0;
+}
+
+var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var OBR_Lab_Type = &quot;&quot;;
+var Labs = new Array(); 
+var LabID = 0;
+var SendApp = &quot;&quot;;
+
+
+//Rule 1 : Check if HL7 contains report
+var ReportTypes = new Array(&quot;Pathology Surgical&quot;,&quot;Fungal ID&quot;,&quot;Miscellaneous Culture&quot;,&quot;Fungal Culture&quot;,&quot;Blood Culture&quot;,&quot;Abs/Wnd Culture&quot;,&quot;Tissue Culture&quot;,&quot;Urine Culture&quot;,&quot;Body Fld Culture&quot;,&quot;Pathology GYN&quot;,&quot;Pathology Medical&quot;);
+var HasReport = 0;
+var Report = &quot;&quot;;
+//End of Rules 1
+var correction_check = 0;
+var correction_result_id ;
+
+
+
+
+var order_id = &quot;&quot;;
+var order_date = null;
+
+
+for each (seg in msg.children())
+{
+	if(seg.name() == &quot;OBR&quot;)
+	{
+		OBR_Lab_Type = seg[&apos;OBR.4&apos;][&apos;OBR.4.2&apos;].toString();
+		
+		for(var i=0;i&lt;ReportTypes.length;i++)
+		{
+			if(ReportTypes[i] == OBR_Lab_Type)
+			{
+				HasReport = 1;
+			}			
+		}
+
+		order_id = seg[&apos;OBR.3&apos;][&apos;OBR.3.1&apos;].toString(); 
+		
+		if(order_id == &quot;&quot;)
+		{
+			order_id = $(&apos;order_id_other&apos;); // Check OBR 2 if it is empty check ORC 8
+		}
+
+		if(order_id == &quot;&quot;)
+		{
+			order_id = &quot;&quot;; //&quot;No Order ID&quot;;
+		}
+		else
+		{
+			var order_id_parts = order_id.split(&quot;-&quot;);
+			
+			order_id = order_id_parts[0];
+
+			if(order_id_parts.length &gt; 1)
+			{
+			  var OrderID_Second_Part = new String(order_id_parts[1]);	
+			  SendApp = OrderID_Second_Part.replace(/[0-9]/g,&apos;&apos;); // Remove numbers in order types (e.g. 02PSC - &gt; PSC)
+			}
+			else
+			{
+			SendApp = &quot;&quot;;
+			}
+			
+		}
+		
+	}
+	else if(seg.name() == &quot;ORC&quot;)
+	{
+		order_date = seg[&apos;ORC.9&apos;][&apos;ORC.9.1&apos;].toString();
+		//order_date = msg[&apos;ORC&apos;][&apos;ORC.9&apos;][&apos;ORC.9.1&apos;].toString();	
+		order_date = order_date.substring(0,4)+&quot;-&quot;+ order_date.substring(4,6)+&quot;-&quot;+order_date.substring(6,8);
+
+	}	
+	else if(seg.name() == &quot;OBX&quot;)
+	{
+	correction_check = 0;
+
+	//if(seg[&apos;OBX.11&apos;][&apos;OBX.11.1&apos;].toString() == &quot;F&quot;)
+	//{	
+		if((LabID == 0) || (HasReport == 0))
+		{
+			Labs[LabID] = new Object();
+			
+			Labs[LabID].mrn = $(&apos;mrn&apos;); //OK
+			Labs[LabID].orderid = order_id; //OK
+			Labs[LabID].range_low = null; //OK
+			Labs[LabID].range_high = null; //OK
+			Labs[LabID].numberic_result = null; //OK
+			Labs[LabID].result_date = null;//OK
+			Labs[LabID].order_date = order_date; //OK
+			Labs[LabID].toxicity = null;
+			Labs[LabID].toxicity_grade = null; 
+			Labs[LabID].unit = null;//OK
+			Labs[LabID].original_req_app = $(&apos;source_application&apos;); //OK
+			Labs[LabID].lab_test = null;//OK
+			Labs[LabID].lab_test_code = null;//OK
+			Labs[LabID].report = &quot;&quot;; //OK
+			Labs[LabID].report_flag = &quot;FALSE&quot;; //OK
+			Labs[LabID].comment = &quot;&quot;;
+			Labs[LabID].comment_flag = &quot;FALSE&quot;; 
+			Labs[LabID].Original_HL7_ID = null;
+			Labs[LabID].System = SendApp;
+			Labs[LabID].LowHigh = &quot;&quot;;
+		    Labs[LabID].BeakerID = &quot;&quot;; 	
+
+			LabID = LabID + 1; 
+		}
+
+			
+		if(HasReport == 1)
+		{
+			Labs[LabID-1].report = Labs[LabID-1].report +&quot; &quot;+ seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			Labs[LabID-1].report_flag = &quot;TRUE&quot;;
+		}
+		else
+		{
+			//Test Name
+			if(Labs[LabID-1].original_req_app == &apos;INBLAB&apos;)
+			{
+				Labs[LabID-1].lab_test = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+				Labs[LabID-1].lab_test_code = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+			else
+			{
+				Labs[LabID-1].BeakerID = seg[&apos;OBX.3&apos;][&apos;OBX.3.1&apos;].toString()
+				Labs[LabID-1].lab_test = seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+				Labs[LabID-1].lab_test_code = seg[&apos;OBX.3&apos;][&apos;OBX.3.4&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+
+			//Result Date
+			var result_date = seg[&apos;OBX.14&apos;][&apos;OBX.14.1&apos;].toString();
+			Labs[LabID-1].result_date = result_date.substring(0,4)+&quot;-&quot;+result_date.substring(4,6)+&quot;-&quot;+result_date.substring(6,8);
+			//Range
+			var sub_range_field = seg[&apos;OBX.7&apos;][&apos;OBX.7.1&apos;].toString();
+			if(sub_range_field != &quot;&quot;)
+			{
+				var sub_range = sub_range_field.split(&quot;-&quot;);
+				if(isNumber(sub_range[0]))
+				{
+				 	Labs[LabID-1].range_low= sub_range[0];
+				}
+
+				if(isNumber(sub_range[1]))
+				{
+					Labs[LabID-1].range_high = sub_range[1];
+				}
+			}
+			//Numeric Result
+			Labs[LabID-1].numberic_result = seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString();
+			//Unit
+			Labs[LabID-1].unit = seg[&apos;OBX.6&apos;][&apos;OBX.6.1&apos;].toString();
+
+			//Low High
+			if(Labs[LabID-1].lab_test_code == &quot;HGB&quot;)
+			{		
+				Labs[LabID-1].LowHigh = seg[&apos;OBX.8&apos;][&apos;OBX.8.1&apos;].toString();
+			}
+			
+		}
+
+	 /*}
+	 else
+	 {
+	 		
+			if(order_id != &quot;&quot;)
+			{
+				
+				var SelectExistLabResult = &quot;SELECT id from lab_results WHERE order_id =&apos;&quot; + order_id+&quot;&apos; and lab_test =&apos;&quot;+seg[&apos;OBX.3&apos;][&apos;OBX.3.2&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;)+&quot;&apos;&quot;;
+				var result = dbConn.executeCachedQuery(SelectExistLabResult);
+			    
+				if(result.next())
+				{
+				correction_check = 1;	
+				correction_result_id = result.getInt(&quot;id&quot;);
+				//Result Date
+				var result_date = seg[&apos;OBX.14&apos;][&apos;OBX.14.1&apos;].toString();
+				var result_date_processed = result_date.substring(0,4)+&quot;-&quot;+result_date.substring(4,6)+&quot;-&quot;+result_date.substring(6,8);	
+				//Range
+				var sub_range_field = seg[&apos;OBX.7&apos;][&apos;OBX.7.1&apos;].toString();
+				var range_low_processed = null;
+				var range_high_processed = null;
+				if(sub_range_field != &quot;&quot;)
+				{
+					var sub_range = sub_range_field.split(&quot;-&quot;);
+					range_low_processed= sub_range[0];
+					range_high_processed = sub_range[1];
+				}
+				///Numeric Result
+				var numberic_result_processed = seg[&apos;OBX.5&apos;][&apos;OBX.5.1&apos;].toString();
+				var OriginalMessageID =new String(globalMap.get(&apos;LastMessageId&apos;));
+				var LabUpdateSQL_Statement = &quot;UPDATE lab_results SET range_low=&quot;+range_low_processed+&quot; ,range_high=&quot;+range_high_processed+&quot; ,numeric_result=&apos;&quot;+numberic_result_processed +&quot;&apos; ,result_date=&apos;&quot;+result_date_processed+&quot;&apos; ,original_hl7_id=&quot;+OriginalMessageID+&quot; WHERE id=&quot;+result.getInt(&quot;id&quot;);
+				logger.error(&quot;Change SQL :&quot;+LabUpdateSQL_Statement);
+				dbConn.executeUpdate(LabUpdateSQL_Statement);
+				}
+			
+
+			}
+	 }*/			
+	}
+	else if(seg.name() == &quot;NTE&quot;)
+	{
+		if((LabID != 0) || (correction_check == 1))
+		{
+			if(correction_check == 0)
+			{
+				Labs[LabID-1].comment_flag = &quot;TRUE&quot;;
+				Labs[LabID-1].comment = Labs[LabID-1].comment +&quot; &quot;+seg[&apos;NTE.3&apos;][&apos;NTE.3.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;);
+			}
+			else
+			{
+			var NoteUpdateSQL = &quot;UPDATE lab_results SET comment_text = comment_text || &apos;   \`&apos; || &apos;&quot;+seg[&apos;NTE.3&apos;][&apos;NTE.3.1&apos;].toString().replace(/\&apos;/g,&quot;\\\&apos;&quot;)+&quot;&apos; WHERE id=&quot;+correction_result_id;
+			logger.error(&quot;Change Note: &quot;+NoteUpdateSQL);
+			dbConn.executeUpdate(NoteUpdateSQL);	
+			}
+		}
+
+	}		
+}
+
+
+var LastMessageID =new String(globalMap.get(&apos;LastMessageId&apos;));
+var ID_ARRAY = LastMessageID.split(&quot;.&quot;);
+LastMessageID = ID_ARRAY[0];
+
+
+
+var InsertOriginalMessageSQL = &quot;INSERT INTO lab_results_HL7 (original_message) VALUES (&apos;&quot;+messageObject.getRawData()+&quot;&apos;)&quot;;
+
+var previous_orderid = &quot;&quot;;
+
+for(var l=0;l&lt;LabID;l++)
+{
+var InsertLabSQL_begin = &quot;INSERT INTO lab_results (order_id,mrn,range_low,range_high,numeric_result,result_date,order_date,toxicity,comment,comment_text,toxicity_grade,unit,original_req_app,lab_test,report_text,report,original_hl7_id,system,lab_test_code,HIGH_LOW,hbo_id,epic_beaker_id) &quot;;
+
+var InsertLabSQL_end=&quot;&quot;;
+
+
+
+
+//Unit mapping for EPIC
+/*var tmp_lab_test = getTestCode(Labs[l].BeakerID);
+if((tmp_lab_test == &apos;NA&apos;) || (tmp_lab_test == &apos;K&apos;) || (tmp_lab_test == &apos;PLAT&apos;) || (tmp_lab_test == &apos;PTT&apos;))
+{
+	Labs[l].unit = getUnit(Labs[l].BeakerID);
+}*/
+
+if(getUnit(Labs[l].BeakerID) != &quot;&quot;)
+{
+	Labs[l].unit = getUnit(Labs[l].BeakerID);
+}
+
+//End of Unit mapping for EPIC
+
+//if(Labs[l].result_date != null) //joseph-b changed 2013-7-31 to handle ERROR: invalid input syntax for type date: &quot;--&quot;
+if(Labs[l].result_date != null &amp;&amp; Labs[l].result_date != &quot;--&quot;)
+{
+      InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,&apos;&quot;+Labs[l].result_date+&quot;&apos;,&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+Labs[l].unit+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+Labs[l].System+&quot;&apos;,&apos;&quot;+Labs[l].lab_test_code+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&apos;)&quot;;
+	//InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,&apos;&quot;+Labs[l].result_date+&quot;&apos;,&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+getUnit(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+Labs[l].System+&quot;&apos;,&apos;&quot;+Labs[l].lab_test_code+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&apos;)&quot;;
+
+}
+else
+{
+      InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,now(),&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+Labs[l].unit+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+$(&apos;system_type&apos;)+&quot;&apos;,&apos;&quot;+getTestCode(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].BeakerID+&quot;&apos;)&quot;;
+	//InsertLabSQL_end = &quot;VALUES (&apos;&quot;+Labs[l].orderid+&quot;&apos;,&apos;&quot;+Labs[l].mrn+&quot;&apos;,&quot;+Labs[l].range_low+&quot;,&quot;+Labs[l].range_high+&quot;,&apos;&quot;+Labs[l].numberic_result+&quot;&apos;,now(),&apos;&quot;+Labs[l].order_date+&quot;&apos;,&quot;+Labs[l].toxicity+&quot;,&quot;+Labs[l].comment_flag+&quot;,&apos;&quot;+Labs[l].comment+&quot;&apos;,&quot;+Labs[l].toxicity_grade+&quot;,&apos;&quot;+getUnit(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+$(&apos;source_application&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].lab_test+&quot;&apos;,&apos;&quot;+Labs[l].report+&quot;&apos;,&quot;+Labs[l].report_flag+&quot;,&quot;+LastMessageID+&quot;,&apos;&quot;+$(&apos;system_type&apos;)+&quot;&apos;,&apos;&quot;+getTestCode(Labs[l].BeakerID)+&quot;&apos;,&apos;&quot;+Labs[l].LowHigh+&quot;&apos;,&apos;&quot;+$(&apos;hbo_id&apos;)+&quot;&apos;,&apos;&quot;+Labs[l].BeakerID+&quot;&apos;)&quot;;
+
+}
+
+var InsertLabSQL = InsertLabSQL_begin + InsertLabSQL_end;
+//logger.error(&quot;Query : &quot;+InsertLabSQL);
+dbConn.executeUpdate(InsertLabSQL);
+
+if((Labs[l].System != &quot;&quot;) &amp;&amp; (Labs[l].System != null))
+{
+	//var System_lowercase = new String(Labs[l].System);
+	//System_lowercase = System_lowercase.toLowerCase();
+
+ 	//if((Labs[l].System == &quot;PSC&quot;) || (System_lowercase == &quot;psc&quot;))	
+	if(Labs[l].System == &quot;PSC&quot;)
+ 	{
+		// Check code teplates for function definition.	
+		if(previous_orderid != Labs[l].orderid)
+		{
+			Update_Order_Status(Labs[l].orderid); // If it is a PSC order than it will change the state to occured.
+			previous_orderid = Labs[l].orderid;
+		}
+ 	}
+}
+
+}</string>
+              </entry>
+            </data>
+          </step>
+        </steps>
+        <inboundTemplate encoding="base64">TVNIfF5+XCZ8U0NDTHxTQ0N8VUFNU3xVQU1TfDIwMTEwNTIyMDAyODU2fHxPUlVeUjAxfDMwMDg1
+OTM0fFB8Mi4zXl58fHx8fHx8ClBJRHx8fDE1NzU3NTl8fERPTExTXkNPUlJFTkVeQnx8MTk1MTA5
+MTZ8Rnx8Qnw3MDYgQ0FVTEVZIENJUkNMRV5eU1RBUiBDSVRZXkFSXjcxNjY3fHwoODcwKTM3MC0w
+NDQ3fHx8fHwwMTU3NTc1OTAxMTM4fDQzMTA4NTg0NgpQVjF8fE98TlNVUnx8MDE1NzU3NTkwMTEz
+OHx8MDA4NDQ3fHx8fHx8fHx8SHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHwyMDExMDUyMDA4
+NTd8MjAxMTA1MjAyMzU5Ck9SQ3xSRXwxMDU2Mzk3LTFDRU5UfDEyfEgzMjAxMDA5fHx8Xl5eMjAx
+MTA1MjBeXlJ8fDIwMTEwNTIwMDk1NnxKUk18fDAwODQ0N3xOU1VSXkEKT0JSfDF8fDEyfEFDVEgy
+XkFDVEheQUNUSDJ8fHwyMDExMDUyMDA5NTh8fHxKUk18fHx8MjAxMTA1MjAxMDM2fHwwMDg0NDd8
+fHx8fHwyMDExMDUyMjAwMjh8fFJFRjF8Rnx8Xl5eMjAxMTA1MjBeXlJ8fHx8fEFVVE98fEFVVE8K
+T0JYfDF8U1R8MDFeQUNUSF5eQUNUSDJ8fDY4fHBnL21MfDYtNTh8SHx8fEZ8fHwyMDExMDUyMjAw
+Mjh8QVJVUHxBVVRPfDIwMTEwNTIyMDAyOCAKTlRFfDF8fFRFU1QgSU5GT1JNQVRJT046IEFDVEgg
+Ck5URXwyfHxTb21lIHR5cGVzIG9mIHN5bnRoZXRpYyBBQ1RIIGFyZSBub3QgZGV0ZWN0ZWQgYnkg
+dGhpcyBhc3NheS4gCk5URXwzfHxUZXN0IHJlZmVycmVkIGZvciBhbmFseXNpcyB0byBBUlVQIExh
+Ym9yYXRvcmllcywgCk5URXw0fHxTYWx0IExha2UgQ2l0eSwgVXRhaCA=</inboundTemplate>
+        <outboundTemplate encoding="base64">TVNIfF5+XCZ8U0NDTHxTQ0N8VUFNU3xVQU1TfDIwMTEwNTIyMDAyODU2fHxPUlVeUjAxfDMwMDg1
+OTM0fFB8Mi4zXl58fHx8fHx8ClBJRHx8fDE1NzU3NTl8fERPTExTXkNPUlJFTkVeQnx8MTk1MTA5
+MTZ8Rnx8Qnw3MDYgQ0FVTEVZIENJUkNMRV5eU1RBUiBDSVRZXkFSXjcxNjY3fHwoODcwKTM3MC0w
+NDQ3fHx8fHwwMTU3NTc1OTAxMTM4fDQzMTA4NTg0NgpQVjF8fE98TlNVUnx8MDE1NzU3NTkwMTEz
+OHx8MDA4NDQ3fHx8fHx8fHx8SHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHwyMDExMDUyMDA4
+NTd8MjAxMTA1MjAyMzU5Ck9SQ3xSRXx8MTJ8SDMyMDEwMDl8fHxeXl4yMDExMDUyMF5eUnx8MjAx
+MTA1MjAwOTU2fEpSTXx8MDA4NDQ3fE5TVVJeQQpPQlJ8MXx8MTJ8QUNUSDJeQUNUSF5BQ1RIMnx8
+fDIwMTEwNTIwMDk1OHx8fEpSTXx8fHwyMDExMDUyMDEwMzZ8fDAwODQ0N3x8fHx8fDIwMTEwNTIy
+MDAyOHx8UkVGMXxGfHxeXl4yMDExMDUyMF5eUnx8fHx8QVVUT3x8QVVUTwpPQlh8MXxTVHwwMV5B
+Q1RIXl5BQ1RIMnx8Njh8cGcvbUx8Ni01OHxIfHx8Rnx8fDIwMTEwNTIyMDAyOHxBUlVQfEFVVE98
+MjAxMTA1MjIwMDI4IApOVEV8MXx8VEVTVCBJTkZPUk1BVElPTjogQUNUSCAKTlRFfDJ8fFNvbWUg
+dHlwZXMgb2Ygc3ludGhldGljIEFDVEggYXJlIG5vdCBkZXRlY3RlZCBieSB0aGlzIGFzc2F5LiAK
+TlRFfDN8fFRlc3QgcmVmZXJyZWQgZm9yIGFuYWx5c2lzIHRvIEFSVVAgTGFib3JhdG9yaWVzLCAK
+TlRFfDR8fFNhbHQgTGFrZSBDaXR5LCBVdGFoIA==</outboundTemplate>
+        <inboundProtocol>HL7V2</inboundProtocol>
+        <outboundProtocol>HL7V2</outboundProtocol>
+        <inboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules>
+          <rule>
+            <sequenceNumber>0</sequenceNumber>
+            <name>Source Check</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</script>
+            <operator>NONE</operator>
+          </rule>
+          <rule>
+            <sequenceNumber>1</sequenceNumber>
+            <name>New Rule</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if($(&apos;IsValid&apos;) == 1)
+{
+return true;
+}
+else
+{
+return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if($(&apos;IsValid&apos;) == 1)
+{
+return true;
+}
+else
+{
+return false;
+}</script>
+            <operator>AND</operator>
+          </rule>
+        </rules>
+      </filter>
+      <transportName>Database Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.1.1.5490</version>
+    </connector>
+    <connector>
+      <name>grade</name>
+      <properties>
+        <property name="DataType">JavaScript Writer</property>
+        <property name="host">sink</property>
+        <property name="script">var dbConn = DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+
+var Query = &quot;SELECT * FROM public.lab_results where numeric_result &lt;&gt; &apos;CANCELLED&apos; and numeric_result is not null and numeric_result &lt;&gt; &apos;&apos; and grade_flag = 0 and result_date &gt; &apos;2015-05-25&apos;&quot;;
+			//&quot;and  lab_test_code in (&apos;ABLY&apos;,&apos;ABSEG&apos;,&apos;ALB&apos;,&apos;ALP&apos;,&apos;ALT&apos;,&apos;AMY&apos;,&apos;AST&apos;,&apos;CA&apos;,&apos;CAI2&apos;,&apos;CHOL&apos;,&apos;CK&apos;,&apos;COLOR&apos;,&apos;CREAT&apos;,&apos;FBG&apos;,&apos;FBS&apos;,&apos;GGT&apos;,&apos;HAPT&apos;,&apos;K&apos;,&apos;LIP&apos;,&apos;MG2&apos;,&apos;NA&apos;,&apos;PLAT&apos;,&apos;PO4&apos;,&apos;PTT&apos;,&apos;TBIL&apos;,&apos;TRIG&apos;,&apos;TROPI&apos;,&apos;TUPR&apos;,&apos;URIC&apos;,&apos;WBC&apos;)&quot;;
+
+var result = dbConn.executeCachedQuery(Query);
+var counter = 1;
+
+while(result.next())
+{
+var DataError = null;
+var id = result.getInt(&quot;id&quot;);
+var isnum = /^([0-9]*|\d*\.\d{1}?\d*)$/.test(result.getString(&quot;numeric_result&quot;));
+var numresult=&quot;&quot;;
+	if(isnum == true)
+	{
+		numresult = result.getString(&quot;numeric_result&quot;);
+	}
+	else
+	{
+		numresult = &quot;-99999999&quot;;
+		DataError = new Object();
+		DataError.value = result.getString(&quot;numeric_result&quot;);
+		DataError.sysmsg = &quot;Invalid Test Value : &quot;+result.getString(&quot;numeric_result&quot;);
+	}
+var low = result.getString(&quot;range_low&quot;);
+var high = result.getString(&quot;range_high&quot;);
+
+if((low == &quot;&quot;) || (low == null))
+{
+	low = &quot;0d&quot;;
+}
+
+if((high == &quot;&quot;) || (high == null))
+{
+	high = &quot;0d&quot;;
+}
+
+var Data = Grade2(result.getString(&quot;lab_test_code&quot;),result.getString(&quot;lab_test_code&quot;),result.getString(&quot;unit&quot;),numresult,low,high,result.getInt(&quot;id&quot;),DataError);
+
+if(Data != null &amp;&amp; Data.grade != &quot;failed&quot;)
+{
+
+var UpdateSQL = &quot;UPDATE public.lab_results SET toxicity_grade= &quot;+Data.grade+&quot; ,  toxicity_note= &apos;&quot;+Data.note+&quot;&apos; , grade_flag = 1 WHERE id = &quot;+id;
+
+//logger.error(&quot;SQL : &quot;+InsertSQL);
+	dbConn.executeUpdate(UpdateSQL);
+}
+
+
+}
+dbConn.close();</property>
+      </properties>
+      <transformer>
+        <steps/>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <inboundProtocol>HL7V2</inboundProtocol>
+        <outboundProtocol>HL7V2</outboundProtocol>
+        <inboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules>
+          <rule>
+            <sequenceNumber>0</sequenceNumber>
+            <name>Source Check</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if($(&apos;Source&apos;) == &apos;EPIC&apos;)
+{
+	return true;
+}
+else
+{
+	channelMap.put(&apos;Source Check&apos;,&apos;It is not EPIC&apos;);
+	return false;
+}</script>
+            <operator>NONE</operator>
+          </rule>
+          <rule>
+            <sequenceNumber>1</sequenceNumber>
+            <name>New Rule</name>
+            <data class="map">
+              <entry>
+                <string>Script</string>
+                <string>if($(&apos;IsValid&apos;) == 1)
+{
+return true;
+}
+else
+{
+return false;
+}</string>
+              </entry>
+            </data>
+            <type>JavaScript</type>
+            <script>if($(&apos;IsValid&apos;) == 1)
+{
+return true;
+}
+else
+{
+return false;
+}</script>
+            <operator>AND</operator>
+          </rule>
+        </rules>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.1.1.5490</version>
+    </connector>
+  </destinationConnectors>
+  <properties>
+    <property name="clearGlobalChannelMap">true</property>
+    <property name="dont_store_filtered">false</property>
+    <property name="encryptData">false</property>
+    <property name="error_messages_only">false</property>
+    <property name="initialState">started</property>
+    <property name="max_message_age">-1</property>
+    <property name="store_messages">true</property>
+    <property name="synchronous">true</property>
+    <property name="transactional">false</property>
+  </properties>
+  <preprocessingScript>// Modify the message variable below to pre process data
+return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <shutdownScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</shutdownScript>
+</channel>

@@ -1,0 +1,507 @@
+<channel>
+  <id>2c71d79f-ab8a-4b99-98e8-6750195792f0</id>
+  <name>MCBIOS_AERS_Import_Lab</name>
+  <description>Works every hour</description>
+  <enabled>true</enabled>
+  <version>2.1.1.5490</version>
+  <lastModified>
+    <time>1433859615602</time>
+    <timezone>America/Chicago</timezone>
+  </lastModified>
+  <revision>2</revision>
+  <sourceConnector>
+    <name>sourceConnector</name>
+    <properties>
+      <property name="DataType">Database Reader</property>
+      <property name="URL">jdbc:postgresql://server/database</property>
+      <property name="ack"></property>
+      <property name="ackScript"></property>
+      <property name="driver">org.postgresql.Driver</property>
+      <property name="host">query</property>
+      <property name="password">password</property>
+      <property name="pollingFrequency">3600000</property>
+      <property name="pollingType">interval</property>
+      <property name="processResultsInOrder">1</property>
+      <property name="query">SELECT id,numeric_result,range_low,range_high,mrn,lab_test_code, (toxicity_grade is not null) as toxicity_flag, epic_beaker_id FROM lab_results where result_date &gt; &apos;2015-01-13&apos; and aers_flag=0 and epic_beaker_id not in (&apos;1576980&apos;,&apos;1510828&apos;)</property>
+      <property name="script"></property>
+      <property name="useAck">0</property>
+      <property name="useScript">0</property>
+      <property name="username">username</property>
+    </properties>
+    <transformer>
+      <steps>
+        <step>
+          <sequenceNumber>0</sequenceNumber>
+          <name>Lab_ID</name>
+          <script>var mapping;try { mapping = msg[&apos;id&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;Lab_ID&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>Lab_ID</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;id&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>1</sequenceNumber>
+          <name>numeric_result</name>
+          <script>var mapping;try { mapping = msg[&apos;numeric_result&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;numeric_result&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>numeric_result</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;numeric_result&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>2</sequenceNumber>
+          <name>range_low</name>
+          <script>var mapping;try { mapping = msg[&apos;range_low&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;range_low&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>range_low</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;range_low&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>3</sequenceNumber>
+          <name>range_high</name>
+          <script>var mapping;try { mapping = msg[&apos;range_high&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;range_high&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>range_high</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;range_high&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>4</sequenceNumber>
+          <name>toxicity_flag</name>
+          <script>var mapping;try { mapping = msg[&apos;toxicity_flag&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;toxicity_flag&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>toxicity_flag</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;toxicity_flag&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>5</sequenceNumber>
+          <name>mrn</name>
+          <script>var mapping;try { mapping = msg[&apos;mrn&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;mrn&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>mrn</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;mrn&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>6</sequenceNumber>
+          <name>lab_test_code</name>
+          <script>var mapping;try { mapping = msg[&apos;lab_test_code&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;lab_test_code&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>lab_test_code</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;lab_test_code&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+        <step>
+          <sequenceNumber>7</sequenceNumber>
+          <name>epic_beaker_id</name>
+          <script>var mapping;try { mapping = msg[&apos;epic_beaker_id&apos;].toString(); }catch (e) { logger.error(e);  mapping = &apos;&apos;;}channelMap.put(&apos;epic_beaker_id&apos;, validate( mapping , &apos;&apos;, new Array()));</script>
+          <type>Mapper</type>
+          <data class="map">
+            <entry>
+              <string>Variable</string>
+              <string>epic_beaker_id</string>
+            </entry>
+            <entry>
+              <string>DefaultValue</string>
+              <string></string>
+            </entry>
+            <entry>
+              <string>Mapping</string>
+              <string>msg[&apos;epic_beaker_id&apos;].toString()</string>
+            </entry>
+            <entry>
+              <string>RegularExpressions</string>
+              <list/>
+            </entry>
+            <entry>
+              <string>isGlobal</string>
+              <string>channel</string>
+            </entry>
+          </data>
+        </step>
+      </steps>
+      <inboundTemplate encoding="base64">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8
+cmVzdWx0Pg0KICAgIDxpZD52YWx1ZTwvaWQ+DQogICAgPG51bWVyaWNfcmVzdWx0PnZhbHVlPC9u
+dW1lcmljX3Jlc3VsdD4NCiAgICA8cmFuZ2VfbG93PnZhbHVlPC9yYW5nZV9sb3c+DQogICAgPHJh
+bmdlX2hpZ2g+dmFsdWU8L3JhbmdlX2hpZ2g+DQogICAgPG1ybj52YWx1ZTwvbXJuPg0KICAgIDxs
+YWJfdGVzdF9jb2RlPnZhbHVlPC9sYWJfdGVzdF9jb2RlPg0KICAgIDx0b3hpY2l0eV9mbGFnPnZh
+bHVlPC90b3hpY2l0eV9mbGFnPg0KICAgIDxlcGljX2JlYWtlcl9pZD52YWx1ZTwvZXBpY19iZWFr
+ZXJfaWQ+DQo8L3Jlc3VsdD4NCg==</inboundTemplate>
+      <outboundTemplate encoding="base64"></outboundTemplate>
+      <inboundProtocol>XML</inboundProtocol>
+      <outboundProtocol>HL7V2</outboundProtocol>
+      <inboundProperties>
+        <property name="stripNamespaces">true</property>
+      </inboundProperties>
+      <outboundProperties>
+        <property name="convertLFtoCR">true</property>
+        <property name="handleRepetitions">false</property>
+        <property name="handleSubcomponents">false</property>
+        <property name="stripNamespaces">true</property>
+        <property name="useStrictParser">false</property>
+        <property name="useStrictValidation">false</property>
+      </outboundProperties>
+    </transformer>
+    <filter>
+      <rules/>
+    </filter>
+    <transportName>Database Reader</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <version>2.1.1.5490</version>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector>
+      <name>Destination 1</name>
+      <properties>
+        <property name="DataType">JavaScript Writer</property>
+        <property name="host">sink</property>
+        <property name="script">function getDatabase()
+{
+	return DatabaseConnectionFactory.createDatabaseConnection(&apos;org.postgresql.Driver&apos;, &apos;jdbc:postgresql://server/database&apos;, &apos;username&apos;, &apos;password&apos;);
+}
+
+function checkIfValidAE(beaker_id)
+{
+var dbConn_prod_psc = getDatabase();
+
+var sql = &quot;SELECT * FROM epic_lab_tests where ae_disabled = false and beaker_id = &apos;&quot;+beaker_id+&quot;&apos;&quot;;
+
+var result = dbConn_prod_psc.executeCachedQuery(sql);
+dbConn_prod_psc.close();
+
+	if(result.next())
+	{
+ 		return true;
+	}
+
+return false;
+}
+
+function checknumber(num)
+{
+	num = new String(num);
+	if(num.match(/^\d+$/))
+	{
+		return true;
+	}
+	else if(num.match(/&lt;\d*/))
+	{
+		return true;
+	}
+	else if(num.match(/&gt;\d*/))
+	{
+		return true;
+	}
+	else if(num.match(/^\d+\.\d+$/))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function checkHistory(mrn,labtype)
+{
+
+var dbConn_prod_psc = getDatabase();
+var hist_sql = &quot;SELECT id, date, test_code, mrn, resolved_flag, resolved_date FROM ae_hist_group where lpad(mrn,20,&apos;0&apos;) = lpad(&apos;&quot;+mrn+&quot;&apos;,20,&apos;0&apos;) and test_code = &apos;&quot;+labtype+&quot;&apos; and resolved_date is null&quot;;
+var hist_result = dbConn_prod_psc.executeCachedQuery(hist_sql);
+
+var ret_result;
+	if(hist_result.next())
+	{
+		ret_result=true;
+	}
+	else
+	{
+		ret_result=false;
+	}
+dbConn_prod_psc.close();
+
+return ret_result;
+}
+
+var check = checknumber($(&apos;numeric_result&apos;));
+
+if(check)
+{
+	var num_res = new String($(&apos;numeric_result&apos;));
+	num_res = num_res.replace(&quot;&lt;&quot;,&quot;&quot;);
+	num_res = num_res.replace(&quot;&gt;&quot;,&quot;&quot;);
+
+	if(parseFloat(num_res) &gt; parseFloat($(&apos;range_high&apos;)))
+	{
+		check = true;
+	}
+	else if(parseFloat(num_res) &lt; parseFloat($(&apos;range_low&apos;)))
+	{
+		check = true;
+	}
+	else
+	{
+		//Commented out on 10/24/2014
+		/*if(checkHistory($(&apos;mrn&apos;),$(&apos;lab_test_code&apos;)))
+		{
+		check = true;
+		}
+		else
+		{
+		check = false;
+		}*/
+		//check = true;
+		check = false;
+	}
+	
+}
+
+if(!checkIfValidAE($(&apos;epic_beaker_id&apos;)))
+{
+	check = false;	
+}
+
+if($(&apos;toxicity_flag&apos;) == &quot;t&quot;)
+{
+	check = true;
+}
+
+if(check)
+{
+var AEC = new Packages.edu.uams.ae.client.AdverseEventClient();
+var Hist = new Packages.edu.uams.ae.history.aeHist();
+
+		Hist.setDBConInfo(&quot;postgresql&quot;, &quot;server&quot;, &quot;database&quot;, &quot;username&quot;, &quot;password&quot;);
+		
+		AEC.setDbType(&quot;postgresql&quot;);
+		AEC.setDbName(&quot;database&quot;);
+		AEC.setDbUrl(&quot;server&quot;);
+		AEC.setDbUsername(&quot;username&quot;);
+		AEC.setDbPassword(&quot;password&quot;);
+		
+		AEC.setC3pr_DbType(&quot;postgresql&quot;);
+		AEC.setC3pr_DbName(&quot;database&quot;);
+		AEC.setC3pr_DbUrl(&quot;server&quot;);
+		AEC.setC3pr_DbUsername(&quot;username&quot;);
+		AEC.setC3pr_DbPassword(&quot;password&quot;);
+		
+		AEC.setHist(Hist);
+		
+		AEC.setDefaultIRB(&quot;99999&quot;);
+		AEC.setTargetURL(&quot;http://aersprod.server.com/tpl/adverseEvent/ae/autoCreateAE.php&quot;);
+
+		AEC.setResultId($(&apos;Lab_ID&apos;));
+
+
+		var Response = AEC.JCall();
+		var Flag = AEC.getFlag();
+
+var dbConn = getDatabase();
+
+var UpdateSQL = &quot;UPDATE lab_results SET aers_flag=&quot;+AEC.getFlag()+&quot;,aers_proc_time=now(), aers_log= &apos;&quot;+Response+&quot;&apos; WHERE id =&quot;+$(&apos;Lab_ID&apos;);
+
+dbConn.executeUpdate(UpdateSQL);
+
+
+dbConn.close();
+}
+else
+{
+var dbConn = getDatabase(); 
+
+var UpdateSQL = &quot;UPDATE lab_results SET aers_flag=2, aers_log=&apos;Mirth did not call the service!&apos; WHERE id =&quot;+$(&apos;Lab_ID&apos;);
+
+dbConn.executeUpdate(UpdateSQL);
+
+dbConn.close();
+
+}</property>
+      </properties>
+      <transformer>
+        <steps/>
+        <inboundProtocol>HL7V2</inboundProtocol>
+        <outboundProtocol>HL7V2</outboundProtocol>
+        <inboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </inboundProperties>
+        <outboundProperties>
+          <property name="convertLFtoCR">true</property>
+          <property name="handleRepetitions">false</property>
+          <property name="handleSubcomponents">false</property>
+          <property name="stripNamespaces">true</property>
+          <property name="useStrictParser">false</property>
+          <property name="useStrictValidation">false</property>
+        </outboundProperties>
+      </transformer>
+      <filter>
+        <rules/>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <version>2.1.1.5490</version>
+    </connector>
+  </destinationConnectors>
+  <properties>
+    <property name="clearGlobalChannelMap">true</property>
+    <property name="dont_store_filtered">false</property>
+    <property name="encryptData">false</property>
+    <property name="error_messages_only">false</property>
+    <property name="initialState">started</property>
+    <property name="max_message_age">-1</property>
+    <property name="store_messages">true</property>
+    <property name="synchronous">true</property>
+    <property name="transactional">false</property>
+  </properties>
+  <preprocessingScript>// Modify the message variable below to pre process data
+return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <shutdownScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</shutdownScript>
+</channel>
